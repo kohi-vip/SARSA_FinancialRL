@@ -2,7 +2,7 @@
 Đây là bài nghiên cứu khoa học nội bộ thử nghiệm khả năng lập trình AI.
 
 Thiết kế cấu trúc project như sau:
-
+```
 financial_rl/
 ├── configs/                # Cấu hình mô hình, môi trường, siêu tham số
 │   ├── default.yaml
@@ -54,4 +54,4 @@ financial_rl/
 ├── setup.py                # Cho phép cài `pip install -e .`
 ├── README.md
 └── .gitignore
-
+```
