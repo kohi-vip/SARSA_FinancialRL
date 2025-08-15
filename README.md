@@ -14,6 +14,12 @@ financial_rl/
 │   ├── processed/           # Dữ liệu đã xử lý feature
 │   └── README.md
 │
+├── preprocessors/                # MỚI: xử lý dữ liệu
+│   ├── data_fetcher.py            # Lấy dữ liệu từ vnstock, yfinance...
+│   ├── feature_engineer.py        # Thêm các indicator kỹ thuật (RSI, MACD...)
+│   ├── data_split.py              # Chia train/test
+│   └── __init__.py
+│
 ├── envs/                   # Định nghĩa môi trường RL (gym-style)
 │   ├── single_stock_env.py
 │   ├── multi_stock_env.py
