@@ -1,6 +1,3 @@
-[submodule "SARSA_FinancialRL"]
-	path = SARSA_FinancialRL
-	url = https://github.com/kohi-vip/SARSA_FinancialRL.git
 [submodule "FinRL"]
 	path = FinRL
 	url = https://github.com/AI4Finance-Foundation/FinRL.git
