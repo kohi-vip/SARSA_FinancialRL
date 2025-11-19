@@ -110,3 +110,38 @@ Các notebook training:
 
 - Yang, H., Liu, X. Y., Zhong, S., & Walid, A. (2020). Deep reinforcement learning for automated stock trading: An ensemble strategy. In Proceedings of the first ACM international conference on AI in finance (pp. 1-8).
 - FinRL: https://github.com/AI4Finance-Foundation/FinRL
+
+## Thiết lập môi trường bằng Conda (khuyến nghị)
+
+Nếu bạn dùng Conda/Miniconda, repository này có `environment.yml` để tái tạo môi trường chính xác.
+
+- Cài Miniconda (nếu chưa có): tải từ https://docs.conda.io/en/latest/miniconda.html và cài đặt.
+- Tạo môi trường từ file `environment.yml` (đã có sẵn trong repo):
+   ```powershell
+   # Tạo môi trường từ file (chứa Python 3.12 và các package cần thiết)
+   conda env create -f environment.yml
+
+   # Kích hoạt môi trường
+   conda activate myenv
+   ```
+
+- Hoặc tạo thủ công (nếu bạn muốn tự chọn tên/phiên bản Python):
+   ```powershell
+   conda create -n myenv python=3.12
+   conda activate myenv
+   conda install matplotlib pytorch torchvision torchaudio -c pytorch -c conda-forge
+   ```
+
+- Nếu conda yêu cầu chấp nhận Terms of Service cho các channel mặc định, chạy các lệnh sau trước khi tạo env:
+   ```powershell
+   conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+   conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+   conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/msys2
+   ```
+
+- Đồng đội có thể tái tạo môi trường với:
+   ```bash
+   conda env create -f environment.yml
+   ```
+
+Ghi chú: sau khi cài Miniconda, bạn có thể cần khởi động lại terminal để `conda` được nạp vào shell.
