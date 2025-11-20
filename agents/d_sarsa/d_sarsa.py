@@ -146,3 +146,99 @@ def deep_sarsa(qsa,
         plt.show()
 
     return learning_curve
+
+def train_deep_sarsa(verbose=False):
+    """
+    Train a Deep SARSA agent for stock trading
+    
+    Returns:
+        pi_deep: Trained policy function
+        qsa: Trained Q-network
+        learning_curve: Profit on test set per episode
+    """
+    # Initialize Q-network
+    qsa = Qsa(input_size=7, num_classes=len(A))
+    
+    # Initial state from first training sample
+    first_row = train_series.iloc[0]
+    # State: [price, balance, shares, macd, rsi, cci, adx]
+    # Columns: date(0), open(1), high(2), low(3), close(4), volume(5), symbol(6), macd(7), rsi(8), cci(9), adx(10)
+    state_init = [
+        float(first_row['close']), 
+        balance_init, 
+        0,
+        float(first_row['macd']),
+        float(first_row['rsi']),
+        float(first_row['cci']),
+        float(first_row['adx'])
+    ]
+    series = train_series[1:].reset_index(drop=True)
+
+    # Optimizer
+    optimizer = optim.Adam(
+        qsa.parameters(),
+        lr=1e-5  # Learning rate for neural network
+    )
+    
+    # Loss function
+    loss_func = nn.HuberLoss()
+
+    # Define epsilon-greedy policy based on Q-network
+    def pi_deep(s, eps=0.2, greedy=False):
+        """
+        Policy that selects actions based on Q-values
+        
+        Args:
+            s: Current state
+            eps: Exploration rate
+            greedy: If True, always select best action
+        """
+        with torch.no_grad():
+            out_qsa = qsa(torch.Tensor(s).float()).squeeze()
+            action = out_qsa.argmax().item() - k  # Best action
+
+            if not greedy:
+                r = np.random.rand()
+                # Epsilon-greedy exploration
+                if r < eps:
+                    action = np.random.choice(A)
+        return action
+
+    # Train using Deep SARSA algorithm
+    print("="*80)
+    print("TRAINING DEEP SARSA AGENT")
+    print("="*80)
+    print(f"Network: {qsa}")
+    print(f"\nHyperparameters:")
+    print(f"  • Episodes: 30")
+    print(f"  • Epochs per episode: 10")
+    print(f"  • Discount factor (γ): 0.6")
+    print(f"  • Learning rate (α): 0.7")
+    print(f"  • Initial ε: 0.8")
+    print(f"  • Min ε: 0.2")
+    print(f"  • ε decay: 0.9")
+    print("-"*80)
+    
+    learning_curve = deep_sarsa(
+        qsa,
+        series,
+        state_init,
+        pi_deep,
+        optimizer,
+        loss_func,
+        epochs=10,      # Number of epochs for training NN in each episode
+        episode=30,     # Number of episodes
+        gamma=0.6,      # Discount coefficient
+        lr=0.7,         # Learning rate for Q-function update
+        eps=0.8,        # Initial epsilon for ε-greedy policy
+        min_eps=0.2,    # Minimum epsilon
+        decay=0.9,      # Epsilon decay rate
+        greedy=False,
+        verbose=verbose
+    )
+    
+    print("\n" + "="*80)
+    print("TRAINING COMPLETED!")
+    print("="*80)
+    
+    return pi_deep, qsa, learning_curve
