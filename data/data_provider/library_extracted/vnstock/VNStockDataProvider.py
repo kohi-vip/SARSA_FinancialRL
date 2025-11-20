@@ -2,7 +2,7 @@ import pandas as pd
 from vnstock import Vnstock
 from vnstock import Listing, Quote, Company, Finance, Trading, Screener
 
-class VNStockDataProcessor:
+class VNStockDataProvider:
     """
     A comprehensive class for processing VNStock data, including fetching OHLCV data
     and filtering for selected stock symbols.
@@ -13,7 +13,7 @@ class VNStockDataProcessor:
 
     def __init__(self, source='VCI'):
         """
-        Initialize the VNStockDataProcessor.
+        Initialize the VNStockDataProvider.
 
         Parameters:
         - source (str): Data source ('VCI' or 'TCBS').
