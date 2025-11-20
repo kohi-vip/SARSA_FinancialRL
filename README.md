@@ -18,9 +18,12 @@ SARSA_FinancialRL/
 │   │   ├── __init__.py
 │   │   ├── deep_sarsa_agent.py      # SARSA Agent gốc
 │   │   └── deep_sarsa_agent_paper.py # SARSA Agent theo paper Yang et al.
-│   └── dqn/               # DQN Agent
+│   ├── dqn/               # DQN Agent
+│   │   ├── __init__.py
+│   │   └── dqn_agent.py   # DQN Agent theo paper Yang et al.
+│   └── policy_gradient/   # Policy Gradient Agent
 │       ├── __init__.py
-│       └── dqn_agent.py   # DQN Agent theo paper Yang et al.
+│       └── policy_gradient_agent.py # Policy Gradient Agent (REINFORCE)
 │
 ├── training/              # Scripts training
 │   ├── __init__.py
