@@ -72,5 +72,5 @@ SARSA_FinancialRL/
 │
 ├── FinRL/                              # Thư viện FinRL submodule tham khảo (external library)
 │
-└── *.ipynb files (còn lại ở root)       # Các notebook Jupyter còn lại
+└── *.ipynb files (còn lại ở root)      # Các notebook Jupyter còn lại
 ```
