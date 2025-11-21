@@ -33,7 +33,7 @@ class VNStockDataProvider:
         - verbose (bool): Whether to print progress information.
 
         Returns:
-        - pd.DataFrame: Combined OHLCV DataFrame for all symbols.
+        - pd.DataFrame: Combined OHLCV DataFrame for all symbols with columns [date, open, high, low, close, volume, symbol].
         """
         if isinstance(symbols, str):
             symbols = [symbols]
@@ -74,15 +74,21 @@ class VNStockDataProvider:
 
         combined_data = pd.concat(all_data, ignore_index=True)
 
-        # Ensure date column is datetime
+        # Ensure date column is datetime and format as 'date' in yyyy/mm/dd
         if 'time' in combined_data.columns:
-            combined_data['date'] = pd.to_datetime(combined_data['time'])
+            combined_data['date'] = pd.to_datetime(combined_data['time']).dt.strftime('%Y/%m/%d')
+            combined_data.drop('time', axis=1, inplace=True)
         elif 'Date' in combined_data.columns:
-            combined_data['date'] = pd.to_datetime(combined_data['Date'])
+            combined_data['date'] = pd.to_datetime(combined_data['Date']).dt.strftime('%Y/%m/%d')
+            combined_data.drop('Date', axis=1, inplace=True)
         else:
             # Assume first column is date
             date_col = combined_data.columns[0]
-            combined_data['date'] = pd.to_datetime(combined_data[date_col])
+            combined_data['date'] = pd.to_datetime(combined_data[date_col]).dt.strftime('%Y/%m/%d')
+            combined_data.drop(date_col, axis=1, inplace=True)
+
+        # Reorder columns to [date, open, high, low, close, volume, symbol]
+        combined_data = combined_data[['date', 'open', 'high', 'low', 'close', 'volume', 'symbol']]
 
         # Sort by symbol and date
         combined_data = combined_data.sort_values(['symbol', 'date']).reset_index(drop=True)
@@ -102,8 +108,8 @@ class VNStockDataProvider:
 
             print(f"\n📊 Thống kê:")
             print(f"   • Số mã: {combined_data['symbol'].nunique()}")
-            print(f"   • Khoảng thời gian: {combined_data['date'].min().date()} đến {combined_data['date'].max().date()}")
-            print(f"   • Trung bình ngày/mã: {len(combined_data) / combined_data['symbol'].nunique():.0f}")
+            print(f"   • Khoảng thời gian: {pd.to_datetime(combined_data['time']).min().date()} đến {pd.to_datetime(combined_data['time']).max().date()}")
+            print(f"   • Khoảng thời gian: {pd.to_datetime(combined_data['date']).min().date()} đến {pd.to_datetime(combined_data['date']).max().date()}")
 
             print(f"\n📄 Mẫu dữ liệu (10 dòng đầu):")
             print(combined_data.head(10))
@@ -248,7 +254,9 @@ class VNStockDataProvider:
             try:
                 if verbose:
                     print(f"📡 Đang lấy dữ liệu cho {symbol}...")
-                data = self.trading.stock_historical_data(symbol, start_date, end_date, interval=interval)
+                # Use Vnstock stock instance for historical data
+                stock = self.vnstock.stock(symbol=symbol, source=self.source)
+                data = stock.quote.history(start=start_date, end=end_date, interval=interval)
                 data['symbol'] = symbol  # Add symbol column
                 all_data.append(data)
                 if verbose:
@@ -265,18 +273,24 @@ class VNStockDataProvider:
 
         combined_data = pd.concat(all_data, ignore_index=True)
 
-        # Ensure date column is datetime
+        # Ensure date column is datetime and format as 'time' in yyyy/mm/dd
         if 'time' in combined_data.columns:
-            combined_data['date'] = pd.to_datetime(combined_data['time'])
+            combined_data['time'] = pd.to_datetime(combined_data['time']).dt.strftime('%Y/%m/%d')
         elif 'Date' in combined_data.columns:
-            combined_data['date'] = pd.to_datetime(combined_data['Date'])
+            combined_data['time'] = pd.to_datetime(combined_data['Date']).dt.strftime('%Y/%m/%d')
+            combined_data.drop('Date', axis=1, inplace=True)
         else:
             # Assume first column is date
             date_col = combined_data.columns[0]
-            combined_data['date'] = pd.to_datetime(combined_data[date_col])
+            combined_data['time'] = pd.to_datetime(combined_data[date_col]).dt.strftime('%Y/%m/%d')
+            combined_data.drop(date_col, axis=1, inplace=True)
 
-        # Sort by symbol and date
-        combined_data = combined_data.sort_values(['symbol', 'date']).reset_index(drop=True)
+        # Reorder columns to put 'time' first
+        cols = ['time'] + [col for col in combined_data.columns if col != 'time']
+        combined_data = combined_data[cols]
+
+        # Sort by symbol and time (as string, but since format is consistent, it works)
+        combined_data = combined_data.sort_values(['symbol', 'time']).reset_index(drop=True)
 
         if verbose:
             print("\n" + "="*80)
@@ -293,7 +307,7 @@ class VNStockDataProvider:
 
             print(f"\n📊 Thống kê:")
             print(f"   • Số mã: {combined_data['symbol'].nunique()}")
-            print(f"   • Khoảng thời gian: {combined_data['date'].min().date()} đến {combined_data['date'].max().date()}")
+            print(f"   • Khoảng thời gian: {pd.to_datetime(combined_data['time']).min().date()} đến {pd.to_datetime(combined_data['time']).max().date()}")
             print(f"   • Trung bình ngày/mã: {len(combined_data) / combined_data['symbol'].nunique():.0f}")
 
             print(f"\n📄 Mẫu dữ liệu (10 dòng đầu):")
@@ -338,8 +352,8 @@ class VNStockDataProvider:
         # Lọc dữ liệu cho các mã đã chọn
         selected_ohlcv = ohlcv_data[ohlcv_data['symbol'].isin(selected_symbols)].copy()
 
-        # Sắp xếp theo symbol và date
-        selected_ohlcv = selected_ohlcv.sort_values(['symbol', 'date']).reset_index(drop=True)
+        # Sắp xếp theo symbol và time
+        selected_ohlcv = selected_ohlcv.sort_values(['symbol', 'time']).reset_index(drop=True)
 
         if verbose:
             print("\n" + "="*80)
@@ -362,7 +376,7 @@ class VNStockDataProvider:
 
             print(f"\n📊 Thống kê:")
             print(f"   • Số mã: {selected_ohlcv['symbol'].nunique()}")
-            print(f"   • Khoảng thời gian: {selected_ohlcv['date'].min().date()} đến {selected_ohlcv['date'].max().date()}")
+            print(f"   • Khoảng thời gian: {pd.to_datetime(selected_ohlcv['time']).min().date()} đến {pd.to_datetime(selected_ohlcv['time']).max().date()}")
             print(f"   • Trung bình ngày/mã: {len(selected_ohlcv) / selected_ohlcv['symbol'].nunique():.0f}")
 
             # Thống kê theo từng mã
