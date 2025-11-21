@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: SARSA_FinancialRL
+Version: 0.1.0
+Summary: SARSA Financial RL Project
+Author: Your Name
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: TA-Lib
+Dynamic: author
+Dynamic: requires-dist
+Dynamic: summary
