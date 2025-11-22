@@ -59,13 +59,12 @@ class PolicyGradientAgent:
         """Select action using current policy"""
         state = torch.FloatTensor(state).unsqueeze(0).to(self.device)
 
-        with torch.no_grad():
-            probs = self.policy_net(state)
-            dist = Categorical(probs)
-            action = dist.sample()
-            log_prob = dist.log_prob(action)
+        probs = self.policy_net(state)
+        dist = Categorical(probs)
+        action = dist.sample()
+        log_prob = dist.log_prob(action)
 
-        return action.item(), log_prob.item()
+        return action.item(), log_prob
 
     def store_transition(self, state, action, reward, log_prob):
         """Store transition for later policy update"""
@@ -99,7 +98,7 @@ class PolicyGradientAgent:
         states = torch.FloatTensor(self.states).to(self.device)
         actions = torch.LongTensor(self.actions).to(self.device)
         rewards = np.array(self.rewards)
-        log_probs = torch.FloatTensor(self.log_probs).to(self.device)
+        log_probs = torch.stack(self.log_probs).to(self.device)
 
         # Compute returns and baseline
         returns = self.compute_returns(rewards)
