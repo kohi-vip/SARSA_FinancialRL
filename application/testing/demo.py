@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import agents
 from agents.sarsa.deep_sarsa_agent import DeepSARSAAgent
-from agents.dqn.dqn_agent import DQNAgent
+from agents.dqn_agent import DQNAgent
 
 # Import environment
 from environments.env_stocktrading import StockTradingEnv

@@ -9,15 +9,13 @@ from tqdm import tqdm
 import torch
 from torch import nn, optim
 from torch.utils.data import DataLoader, Dataset
-from environments.mdp import *
+
 class Qsa(nn.Module):
-    def __init__(self, input_size=7, num_classes=len(A)):
+    def __init__(self, input_size=7, num_classes=11):  # 11 actions for k=5
         super().__init__()
         self.fc_liner = nn.Sequential(
             nn.Linear(input_size, 32),
             nn.ReLU(),
-#             nn.Linear(32, 16),
-#             nn.ReLU(),
             nn.Linear(32, num_classes)
         )
 
@@ -43,7 +41,9 @@ class StatesDataset(Dataset):
         }
 
 def deep_sarsa(qsa, 
+               mdp,
                series, 
+               test_series,
                state_init, 
                pi, 
                optimizer,
@@ -72,7 +72,7 @@ def deep_sarsa(qsa,
         eps *= decay
 
         # Sinh một trajectory bằng chính sách hiện tại
-        states, rewards, actions = simulate(series, state_init, pi, greedy, eps=max(min_eps, eps))
+        states, rewards, actions = mdp.simulate(series, state_init, pi, greedy, eps=max(min_eps, eps))
 
         # Tạo dataset và data loader
         dataset = StatesDataset(states, rewards, actions)
@@ -88,7 +88,7 @@ def deep_sarsa(qsa,
                 # Chuyển actions sang list nếu là tensor
                 actions_list = data_pack['actions'].tolist() if torch.is_tensor(data_pack['actions']) else list(data_pack['actions'])
                 current_q = out[[i for i in range(len(data_pack['rewards']))], 
-                               [a+k for a in actions_list]]
+                               [a+mdp.k for a in actions_list]]
 
                 # Mục tiêu: r + γQ(s',a') với a' là hành động tiếp theo thực tế
                 with torch.no_grad():
@@ -98,7 +98,7 @@ def deep_sarsa(qsa,
                     # Với trạng thái cuối, dùng hành động cuối vì không có hành động tiếp theo
                     actions_list = data_pack['actions'].tolist() if torch.is_tensor(data_pack['actions']) else list(data_pack['actions'])
                     next_actions = actions_list[1:] + [actions_list[-1]]
-                    next_action_indices = [a+k for a in next_actions]
+                    next_action_indices = [a+mdp.k for a in next_actions]
 
                     next_q = next_q_values[[i for i in range(len(next_action_indices))], 
                                           next_action_indices]
@@ -117,7 +117,7 @@ def deep_sarsa(qsa,
                 losses.append(loss.detach().item())
 
         # Đánh giá trên tập test sau mỗi episode
-        learning_curve.append(interact_test(pi, series_name='test', verbose=False))
+        learning_curve.append(mdp.interact_test(pi, train_series=series, test_series=test_series, series_name='test', verbose=False))
     
     # Vẽ kết quả huấn luyện
     if verbose:
@@ -147,9 +147,14 @@ def deep_sarsa(qsa,
 
     return learning_curve
 
-def train_deep_sarsa(verbose=False):
+def train_deep_sarsa(mdp, train_series, test_series, verbose=False, episodes=30, gamma=0.6, alpha=0.7, epsilon_start=0.8, epsilon_min=0.2, epsilon_decay=0.9, nn_epochs=10, nn_lr=1e-5):
     """
     Train a Deep SARSA agent for stock trading
+    
+    Args:
+        mdp: Instance of StockTradingMDP
+        train_series: Training DataFrame
+        test_series: Test DataFrame
     
     Returns:
         pi_deep: Trained policy function
@@ -157,27 +162,26 @@ def train_deep_sarsa(verbose=False):
         learning_curve: Profit on test set per episode
     """
     # Initialize Q-network
-    qsa = Qsa(input_size=7, num_classes=len(A))
+    qsa = Qsa(input_size=7, num_classes=len(mdp.A))
     
     # Initial state from first training sample
     first_row = train_series.iloc[0]
-    # State: [price, balance, shares, macd, rsi, cci, adx]
-    # Columns: date(0), open(1), high(2), low(3), close(4), volume(5), symbol(6), macd(7), rsi(8), cci(9), adx(10)
+    # State: [price, balance, shares, MACD, RSI, CCI, ADX]
     state_init = [
         float(first_row['close']), 
-        balance_init, 
+        mdp.balance_init, 
         0,
-        float(first_row['macd']),
-        float(first_row['rsi']),
-        float(first_row['cci']),
-        float(first_row['adx'])
+        float(first_row['MACD']),
+        float(first_row['RSI']),
+        float(first_row['CCI']),
+        float(first_row['ADX'])
     ]
     series = train_series[1:].reset_index(drop=True)
 
     # Optimizer
     optimizer = optim.Adam(
         qsa.parameters(),
-        lr=1e-5  # Learning rate for neural network
+        lr=nn_lr  # Learning rate for neural network
     )
     
     # Loss function
@@ -195,13 +199,13 @@ def train_deep_sarsa(verbose=False):
         """
         with torch.no_grad():
             out_qsa = qsa(torch.Tensor(s).float()).squeeze()
-            action = out_qsa.argmax().item() - k  # Best action
+            action = out_qsa.argmax().item() - mdp.k  # Best action
 
             if not greedy:
                 r = np.random.rand()
                 # Epsilon-greedy exploration
                 if r < eps:
-                    action = np.random.choice(A)
+                    action = np.random.choice(mdp.A)
         return action
 
     # Train using Deep SARSA algorithm
@@ -210,29 +214,32 @@ def train_deep_sarsa(verbose=False):
     print("="*80)
     print(f"Network: {qsa}")
     print(f"\nHyperparameters:")
-    print(f"  • Episodes: 30")
-    print(f"  • Epochs per episode: 10")
-    print(f"  • Discount factor (γ): 0.6")
-    print(f"  • Learning rate (α): 0.7")
-    print(f"  • Initial ε: 0.8")
-    print(f"  • Min ε: 0.2")
-    print(f"  • ε decay: 0.9")
+    print(f"  • Episodes: {episodes}")
+    print(f"  • Epochs per episode: {nn_epochs}")
+    print(f"  • Discount factor (γ): {gamma}")
+    print(f"  • Learning rate (α): {alpha}")
+    print(f"  • Initial ε: {epsilon_start}")
+    print(f"  • Min ε: {epsilon_min}")
+    print(f"  • ε decay: {epsilon_decay}")
+    print(f"  • NN Learning rate: {nn_lr}")
     print("-"*80)
     
     learning_curve = deep_sarsa(
         qsa,
+        mdp,
         series,
+        test_series,
         state_init,
         pi_deep,
         optimizer,
         loss_func,
-        epochs=10,      # Number of epochs for training NN in each episode
-        episode=30,     # Number of episodes
-        gamma=0.6,      # Discount coefficient
-        lr=0.7,         # Learning rate for Q-function update
-        eps=0.8,        # Initial epsilon for ε-greedy policy
-        min_eps=0.2,    # Minimum epsilon
-        decay=0.9,      # Epsilon decay rate
+        epochs=nn_epochs,      # Number of epochs for training NN in each episode
+        episode=episodes,     # Number of episodes
+        gamma=gamma,      # Discount coefficient
+        lr=alpha,         # Learning rate for Q-function update
+        eps=epsilon_start,        # Initial epsilon for ε-greedy policy
+        min_eps=epsilon_min,    # Minimum epsilon
+        decay=epsilon_decay,      # Epsilon decay rate
         greedy=False,
         verbose=verbose
     )
