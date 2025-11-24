@@ -63,7 +63,7 @@ class StockTradingMDP:
 
     # reward
     def reward(self, s, s_next):
-        return (s[1] + s[0] * s[2]) - (s_next[1] + s_next[0] * s_next[2])
+        return (s_next[1] + s_next[0] * s_next[2]) - (s[1] + s[0] * s[2])
 
     # tương tác
     def simulate(self, series, state_init, pi, greedy, eps=0.2):

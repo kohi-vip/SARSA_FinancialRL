@@ -51,7 +51,8 @@ def run_deep_sarsa_experiment(mdp, train_series, test_series, episodes, gamma, a
         'learning_curve': learning_curve,
         'std_learning_curve': std_learning_curve,
         'all_final_profits': all_final_profits,
-        'all_learning_curves': all_learning_curves
+        'all_learning_curves': all_learning_curves,
+        'trained_agent': qsa  # Add trained Q-network
     }
 
 
@@ -87,14 +88,19 @@ def run_dqn_experiment(mdp, train_series, test_series, episodes, gamma, epsilon_
             epsilon_decay=epsilon_decay,
             buffer_capacity=10000,
             batch_size=64,
-            target_update=10
+            target_update=10,
+            lr_update=0.7
         )
         
         # Training loop
         learning_curve = []
-        episodes_num = episodes
+        eps = epsilon_start
         
         for episode in range(episodes):
+            # Decay epsilon
+            eps *= epsilon_decay
+            current_eps = max(epsilon_min, eps)
+            
             # Reset environment (simulate from training data)
             state = [
                 float(train_series.iloc[0]['close']),
@@ -106,15 +112,19 @@ def run_dqn_experiment(mdp, train_series, test_series, episodes, gamma, epsilon_
                 float(train_series.iloc[0]['ADX'])
             ]
             
-            episode_reward = 0
-            done = False
+            # Collect trajectory
+            states = [state]
+            actions_taken = []
+            rewards = []
+            
             step = 0
             max_steps = len(train_series) - 1
             
-            while not done and step < max_steps:
-                # Select action
-                action_idx = agent.select_action(state)
-                action = mdp.A[action_idx]  # Convert to actual action (-k to k)
+            while step < max_steps:
+                # Select action with current epsilon
+                action_idx = agent.select_action(state, training=True)
+                agent.epsilon = current_eps  # Temporarily set epsilon for selection
+                action = mdp.A[action_idx]
                 
                 # Get next state
                 next_row = train_series.iloc[step + 1]
@@ -123,20 +133,25 @@ def run_dqn_experiment(mdp, train_series, test_series, episodes, gamma, epsilon_
                 # Calculate reward
                 reward = mdp.reward(state, next_state)
                 
-                # Check if done (end of data)
-                done = (step + 1 >= max_steps)
-                
-                # Store transition
-                agent.store_transition(state, action_idx, reward, next_state, done)
-                
-                # Train
-                agent.train_step()
+                # Store
+                states.append(next_state)
+                actions_taken.append(action_idx)
+                rewards.append(reward)
                 
                 state = next_state
-                episode_reward += reward
                 step += 1
             
-            # Evaluate on test set after each episode
+            # Add experiences to replay buffer
+            for i in range(len(states) - 1):
+                done = 1.0 if i == len(states) - 2 else 0.0
+                agent.store_transition(states[i], actions_taken[i], rewards[i], states[i+1], done)
+            
+            # Training step - multiple updates per episode
+            if len(agent.replay_buffer) >= 64:
+                for _ in range(10):  # Multiple updates per episode
+                    agent.train_step()
+            
+            # Evaluate on test set
             test_profit = evaluate_dqn_on_test(agent, mdp, test_series)
             learning_curve.append(test_profit)
         
@@ -158,7 +173,8 @@ def run_dqn_experiment(mdp, train_series, test_series, episodes, gamma, epsilon_
         'learning_curve': learning_curve,
         'std_learning_curve': std_learning_curve,
         'all_final_profits': all_final_profits,
-        'all_learning_curves': all_learning_curves
+        'all_learning_curves': all_learning_curves,
+        'trained_agent': agent  # Add trained DQN agent
     }
 
 
@@ -288,7 +304,8 @@ def run_policy_gradient_experiment(mdp, train_series, test_series, episodes, gam
         'learning_curve': learning_curve,
         'std_learning_curve': std_learning_curve,
         'all_final_profits': all_final_profits,
-        'all_learning_curves': all_learning_curves
+        'all_learning_curves': all_learning_curves,
+        'trained_agent': agent  # Add trained Policy Gradient agent
     }
 
 
@@ -386,6 +403,10 @@ def run_experiments(mdp, train_series, test_series, shared_config, num_runs=20):
     for agent_key, res in results.items():
         print(f"\n{res['agent']}:")
         print(f"  • Average Final Profit: ${res['final_profit']:.2f} ± ${res['std_final_profit']:.2f}")
+        # Tính annual return rate (giả sử 8 năm cho period train+test)
+        final_portfolio = 1000 + res['final_profit']
+        annual_return = ((final_portfolio / 1000) ** (1/8) - 1) * 100
+        print(f"  • Annual Return Rate: {annual_return:.2f}%")
         if len(res['learning_curve']) > 0:
             print(f"  • Best Training Profit: ${np.max(res['learning_curve']):.2f}")
             print(f"  • Training Stability (std): ${np.mean(res['std_learning_curve']):.2f}")

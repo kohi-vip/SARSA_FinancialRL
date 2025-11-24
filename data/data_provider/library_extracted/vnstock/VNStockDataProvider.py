@@ -108,7 +108,6 @@ class VNStockDataProvider:
 
             print(f"\n📊 Thống kê:")
             print(f"   • Số mã: {combined_data['symbol'].nunique()}")
-            print(f"   • Khoảng thời gian: {pd.to_datetime(combined_data['time']).min().date()} đến {pd.to_datetime(combined_data['time']).max().date()}")
             print(f"   • Khoảng thời gian: {pd.to_datetime(combined_data['date']).min().date()} đến {pd.to_datetime(combined_data['date']).max().date()}")
 
             print(f"\n📄 Mẫu dữ liệu (10 dòng đầu):")

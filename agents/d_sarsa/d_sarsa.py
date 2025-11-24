@@ -67,7 +67,7 @@ def deep_sarsa(qsa,
     learning_curve = list()
     
     # Loop for each episode
-    for epi in tqdm(range(episode), desc="Training Deep SARSA"):
+    for epi in tqdm(range(episode), desc="Training Deep SARSA", disable=not verbose):
         # Giảm epsilon để khám phá
         eps *= decay
 
@@ -209,20 +209,21 @@ def train_deep_sarsa(mdp, train_series, test_series, verbose=False, episodes=30,
         return action
 
     # Train using Deep SARSA algorithm
-    print("="*80)
-    print("TRAINING DEEP SARSA AGENT")
-    print("="*80)
-    print(f"Network: {qsa}")
-    print(f"\nHyperparameters:")
-    print(f"  • Episodes: {episodes}")
-    print(f"  • Epochs per episode: {nn_epochs}")
-    print(f"  • Discount factor (γ): {gamma}")
-    print(f"  • Learning rate (α): {alpha}")
-    print(f"  • Initial ε: {epsilon_start}")
-    print(f"  • Min ε: {epsilon_min}")
-    print(f"  • ε decay: {epsilon_decay}")
-    print(f"  • NN Learning rate: {nn_lr}")
-    print("-"*80)
+    if verbose:
+        print("="*80)
+        print("TRAINING DEEP SARSA AGENT")
+        print("="*80)
+        print(f"Network: {qsa}")
+        print(f"\nHyperparameters:")
+        print(f"  • Episodes: {episodes}")
+        print(f"  • Epochs per episode: {nn_epochs}")
+        print(f"  • Discount factor (γ): {gamma}")
+        print(f"  • Learning rate (α): {alpha}")
+        print(f"  • Initial ε: {epsilon_start}")
+        print(f"  • Min ε: {epsilon_min}")
+        print(f"  • ε decay: {epsilon_decay}")
+        print(f"  • NN Learning rate: {nn_lr}")
+        print("-"*80)
     
     learning_curve = deep_sarsa(
         qsa,
@@ -244,8 +245,9 @@ def train_deep_sarsa(mdp, train_series, test_series, verbose=False, episodes=30,
         verbose=verbose
     )
     
-    print("\n" + "="*80)
-    print("TRAINING COMPLETED!")
-    print("="*80)
+    if verbose:
+        print("\n" + "="*80)
+        print("TRAINING COMPLETED!")
+        print("="*80)
     
     return pi_deep, qsa, learning_curve
