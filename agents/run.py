@@ -27,6 +27,7 @@ def run_deep_sarsa_experiment(mdp, train_series, test_series, episodes, gamma, a
     """
     all_final_profits = []
     all_learning_curves = []
+    all_portfolio_histories = []
     
     for run in tqdm(range(num_runs), desc=f"Running Deep SARSA {num_runs} times"):
         # Train the agent
@@ -35,14 +36,35 @@ def run_deep_sarsa_experiment(mdp, train_series, test_series, episodes, gamma, a
         # Evaluate on test set
         final_profit = mdp.interact_test(pi_deep, train_series=train_series, test_series=test_series, series_name='test', verbose=False)
         
+        # Get portfolio history
+        prev_row = train_series.iloc[-1]
+        state_init = [
+            float(prev_row['close']), 
+            mdp.balance_init, 
+            0,
+            float(prev_row['MACD']),
+            float(prev_row['RSI']),
+            float(prev_row['CCI']),
+            float(prev_row['ADX'])
+        ]
+        states, _, _ = mdp.simulate(test_series, state_init, pi_deep, True)
+        portfolio_history = [s[1] + s[0] * s[2] for s in states]
+        
         all_final_profits.append(final_profit)
         all_learning_curves.append(learning_curve)
+        all_portfolio_histories.append(portfolio_history)
     
     # Calculate statistics
     final_profit = np.mean(all_final_profits)
     learning_curve = np.mean(all_learning_curves, axis=0)
     std_final_profit = np.std(all_final_profits)
     std_learning_curve = np.std(all_learning_curves, axis=0)
+    portfolio_history = np.mean(all_portfolio_histories, axis=0)
+    
+    # Calculate ROI
+    initial_investment = mdp.balance_init
+    final_portfolio = initial_investment + final_profit
+    roi = ((final_portfolio - initial_investment) / initial_investment) * 100
     
     return {
         'agent': 'Deep SARSA',
@@ -52,6 +74,9 @@ def run_deep_sarsa_experiment(mdp, train_series, test_series, episodes, gamma, a
         'std_learning_curve': std_learning_curve,
         'all_final_profits': all_final_profits,
         'all_learning_curves': all_learning_curves,
+        'portfolio_history': portfolio_history,
+        'all_portfolio_histories': all_portfolio_histories,
+        'roi': roi,
         'trained_agent': qsa  # Add trained Q-network
     }
 
@@ -72,6 +97,7 @@ def run_dqn_experiment(mdp, train_series, test_series, episodes, gamma, epsilon_
     """
     all_final_profits = []
     all_learning_curves = []
+    all_portfolio_histories = []
     
     state_dim = 7  # [price, balance, shares, MACD, RSI, CCI, ADX]
     n_actions = len(mdp.A)
@@ -157,14 +183,40 @@ def run_dqn_experiment(mdp, train_series, test_series, episodes, gamma, epsilon_
         
         # Final evaluation
         final_profit = evaluate_dqn_on_test(agent, mdp, test_series)
+        
+        # Get portfolio history
+        def pi_dqn(s, greedy=True, eps=0.0):
+            action_idx = agent.select_action(s, training=False)
+            return mdp.A[action_idx]
+        
+        prev_row = train_series.iloc[-1]
+        state_init = [
+            float(prev_row['close']), 
+            mdp.balance_init, 
+            0,
+            float(prev_row['MACD']),
+            float(prev_row['RSI']),
+            float(prev_row['CCI']),
+            float(prev_row['ADX'])
+        ]
+        states, _, _ = mdp.simulate(test_series, state_init, pi_dqn, True)
+        portfolio_history = [s[1] + s[0] * s[2] for s in states]
+        
         all_final_profits.append(final_profit)
         all_learning_curves.append(learning_curve)
+        all_portfolio_histories.append(portfolio_history)
     
     # Calculate statistics
     final_profit = np.mean(all_final_profits)
     learning_curve = np.mean(all_learning_curves, axis=0)
     std_final_profit = np.std(all_final_profits)
     std_learning_curve = np.std(all_learning_curves, axis=0)
+    portfolio_history = np.mean(all_portfolio_histories, axis=0)
+    
+    # Calculate ROI
+    initial_investment = mdp.balance_init
+    final_portfolio = initial_investment + final_profit
+    roi = ((final_portfolio - initial_investment) / initial_investment) * 100
     
     return {
         'agent': 'DQN',
@@ -174,6 +226,9 @@ def run_dqn_experiment(mdp, train_series, test_series, episodes, gamma, epsilon_
         'std_learning_curve': std_learning_curve,
         'all_final_profits': all_final_profits,
         'all_learning_curves': all_learning_curves,
+        'portfolio_history': portfolio_history,
+        'all_portfolio_histories': all_portfolio_histories,
+        'roi': roi,
         'trained_agent': agent  # Add trained DQN agent
     }
 
@@ -221,6 +276,7 @@ def run_policy_gradient_experiment(mdp, train_series, test_series, episodes, gam
     """
     all_final_profits = []
     all_learning_curves = []
+    all_portfolio_histories = []
     
     state_dim = 7
     action_dim = len(mdp.A)
@@ -288,14 +344,40 @@ def run_policy_gradient_experiment(mdp, train_series, test_series, episodes, gam
         
         # Final evaluation
         final_profit = evaluate_pg_on_test(agent, mdp, test_series)
+        
+        # Get portfolio history
+        def pi_pg(s, greedy=True, eps=0.0):
+            action, _ = agent.select_action(s)
+            return mdp.A[action]
+        
+        prev_row = train_series.iloc[-1]
+        state_init = [
+            float(prev_row['close']), 
+            mdp.balance_init, 
+            0,
+            float(prev_row['MACD']),
+            float(prev_row['RSI']),
+            float(prev_row['CCI']),
+            float(prev_row['ADX'])
+        ]
+        states, _, _ = mdp.simulate(test_series, state_init, pi_pg, True)
+        portfolio_history = [s[1] + s[0] * s[2] for s in states]
+        
         all_final_profits.append(final_profit)
         all_learning_curves.append(learning_curve)
+        all_portfolio_histories.append(portfolio_history)
     
     # Calculate statistics
     final_profit = np.mean(all_final_profits)
     learning_curve = np.mean(all_learning_curves, axis=0) if all_learning_curves else []
     std_final_profit = np.std(all_final_profits)
     std_learning_curve = np.std(all_learning_curves, axis=0) if all_learning_curves else []
+    portfolio_history = np.mean(all_portfolio_histories, axis=0)
+    
+    # Calculate ROI
+    initial_investment = mdp.balance_init
+    final_portfolio = initial_investment + final_profit
+    roi = ((final_portfolio - initial_investment) / initial_investment) * 100
     
     return {
         'agent': 'Policy Gradient',
@@ -305,6 +387,9 @@ def run_policy_gradient_experiment(mdp, train_series, test_series, episodes, gam
         'std_learning_curve': std_learning_curve,
         'all_final_profits': all_final_profits,
         'all_learning_curves': all_learning_curves,
+        'portfolio_history': portfolio_history,
+        'all_portfolio_histories': all_portfolio_histories,
+        'roi': roi,
         'trained_agent': agent  # Add trained Policy Gradient agent
     }
 
@@ -403,6 +488,7 @@ def run_experiments(mdp, train_series, test_series, shared_config, num_runs=20):
     for agent_key, res in results.items():
         print(f"\n{res['agent']}:")
         print(f"  • Average Final Profit: ${res['final_profit']:.2f} ± ${res['std_final_profit']:.2f}")
+        print(f"  • ROI: {res['roi']:.2f}%")
         # Tính annual return rate (giả sử 8 năm cho period train+test)
         final_portfolio = 1000 + res['final_profit']
         annual_return = ((final_portfolio / 1000) ** (1/8) - 1) * 100
