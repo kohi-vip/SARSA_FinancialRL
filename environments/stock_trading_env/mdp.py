@@ -136,3 +136,98 @@ class StockTradingMDP:
             plt.show()
         
         return portforlio[-1] - self.balance_init
+
+    def plot_trading_history(self, states, actions, prices, title="Trading History"):
+        """
+        Vẽ biểu đồ lịch sử giao dịch với 4 subplots:
+        1. Giá cổ phiếu và điểm mua/bán
+        2. Số lượng cổ phiếu nắm giữ
+        3. Số dư tài khoản
+        4. Tổng giá trị portfolio
+        
+        Args:
+            states: list of states [price, balance, shares, MACD, RSI, CCI, ADX]
+            actions: list of actions
+            prices: array of prices
+            title: title for the plot
+        """
+        # Robust plotting: derive price sequence from `states` to ensure alignment
+        fig, axes = plt.subplots(4, 1, figsize=(14, 12))
+
+        # Basic validation
+        if not isinstance(states, (list, tuple)) or len(states) == 0:
+            raise ValueError("`states` must be a non-empty list of state vectors")
+
+        # Derive series from states to guarantee consistent lengths and alignment
+        state_prices = [float(s[0]) for s in states]
+        balances = [float(s[1]) for s in states]
+        shares = [float(s[2]) for s in states]
+        portfolio = [balances[i] + state_prices[i] * shares[i] for i in range(len(states))]
+
+        x = np.arange(len(state_prices))
+
+        # 1. Price chart with buy/sell markers. Actions correspond to transitions
+        # from state[i] -> state[i+1], so plot action markers at index i+1
+        axes[0].plot(x, state_prices, label='Price', color='blue', linewidth=1.5)
+
+        # compute action x positions (shift by +1 to align with next state/price)
+        n_actions = len(actions) if actions is not None else 0
+        action_positions = (np.arange(n_actions) + 1).tolist()
+
+        buy_positions = [pos for idx, pos in enumerate(action_positions) if actions[idx] > 0]
+        sell_positions = [pos for idx, pos in enumerate(action_positions) if actions[idx] < 0]
+
+        if buy_positions:
+            axes[0].scatter(buy_positions, [state_prices[pos] for pos in buy_positions],
+                            color='green', marker='^', s=80, label='Buy', alpha=0.8, zorder=5)
+        if sell_positions:
+            axes[0].scatter(sell_positions, [state_prices[pos] for pos in sell_positions],
+                            color='red', marker='v', s=80, label='Sell', alpha=0.8, zorder=5)
+
+        axes[0].set_title(f'{title} - Price & Trading Signals', fontsize=12, fontweight='bold')
+        axes[0].set_xlabel('Time (days)')
+        axes[0].set_ylabel('Price ($)')
+        axes[0].legend(loc='best')
+        axes[0].grid(True, alpha=0.3)
+
+        # 2. Shares held
+        axes[1].plot(x, shares, label='Shares Held', color='orange', linewidth=2)
+        axes[1].fill_between(x, shares, alpha=0.3, color='orange')
+        axes[1].set_title('Shares Held Over Time', fontsize=12, fontweight='bold')
+        axes[1].set_xlabel('Time (days)')
+        axes[1].set_ylabel('Number of Shares')
+        axes[1].legend(loc='best')
+        axes[1].grid(True, alpha=0.3)
+
+        # 3. Balance
+        axes[2].plot(x, balances, label='Cash Balance', color='purple', linewidth=2)
+        axes[2].axhline(y=self.balance_init, color='gray', linestyle='--',
+                       label=f'Initial Balance (${self.balance_init})', alpha=0.7)
+        axes[2].set_title('Cash Balance Over Time', fontsize=12, fontweight='bold')
+        axes[2].set_xlabel('Time (days)')
+        axes[2].set_ylabel('Balance ($)')
+        axes[2].legend(loc='best')
+        axes[2].grid(True, alpha=0.3)
+
+        # 4. Portfolio value
+        axes[3].plot(x, portfolio, label='Portfolio Value', color='green', linewidth=2)
+        axes[3].axhline(y=self.balance_init, color='gray', linestyle='--',
+                       label=f'Initial Value (${self.balance_init})', alpha=0.7)
+
+        profit_mask = np.array([p >= self.balance_init for p in portfolio])
+        loss_mask = ~profit_mask
+
+        axes[3].fill_between(x, portfolio, self.balance_init,
+                            where=profit_mask, alpha=0.3, color='green', label='Profit')
+        axes[3].fill_between(x, portfolio, self.balance_init,
+                            where=loss_mask, alpha=0.3, color='red', label='Loss')
+
+        axes[3].set_title('Portfolio Value Over Time', fontsize=12, fontweight='bold')
+        axes[3].set_xlabel('Time (days)')
+        axes[3].set_ylabel('Portfolio Value ($)')
+        axes[3].legend(loc='best')
+        axes[3].grid(True, alpha=0.3)
+
+        plt.suptitle(title, fontsize=14, fontweight='bold', y=0.995)
+
+        return fig, axes
