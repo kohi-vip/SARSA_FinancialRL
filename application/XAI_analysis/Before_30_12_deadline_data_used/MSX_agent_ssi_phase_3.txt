@@ -1,0 +1,96 @@
+# --- CẤU HÌNH ---
+COMPONENTS = ['Profit', 'Risk', 'Pos', 'Stab']
+
+print("\n=== BẮT ĐẦU PHÂN TÍCH MSX ĐA CHIỀU (CHI TIẾT & TRỰC QUAN) ===")
+
+for t in index_list_SSI:
+    # 1. Lấy thông tin ngữ cảnh
+    price = df_processed_test_SSI.iloc[t]['close']
+    date = df_processed_test_SSI.iloc[t]['time']
+    actual_action = actions_SSI[t]
+    actual_reward = rewards_SSI[t] # Lấy reward thực tế
+    
+    # Xác định loại điểm quan trọng (để in label)
+    labels = []
+    if t in critical_dict_SSI.get('trend_reversal', []): labels.append("ĐẢO CHIỀU")
+    if t in critical_dict_SSI.get('lowest_price', []): labels.append("ĐÁY/DD")
+    if t in critical_dict_SSI.get('action_shift', []): labels.append("ĐỔI ACTION")
+    label_str = " | ".join(labels) if labels else "Normal"
+    
+    print(f"\n{'='*90}")
+    print(f">> Thời điểm t={t} ({date}) - Giá: {price:.2f}")
+    print(f">> Loại điểm: [{label_str}]")
+    print(f">> Hành động thực tế: {actual_action:+}")
+    print(f">> Reward thực tế nhận được: {actual_reward:.6f}")
+    
+    # 2. Lấy Q-Matrix thực tế tại bước t
+    q_matrix = q_values_history_SSI[t] # Shape (11, 4)
+    idx_selected = actual_action + 5 # Map về index 0-10
+    vec_selected = q_matrix[idx_selected]
+
+    # 3. Tạo danh sách các hành động để so sánh (Logic Đối Xứng)
+    comparison_candidates = []
+    
+    if actual_action == 0:
+        # Nếu đang Giữ, so sánh với 2 cực trị Mua/Bán mạnh nhất
+        comparison_candidates.append(("Mua Mạnh (+5)", 10))
+        comparison_candidates.append(("Bán Mạnh (-5)", 0))
+    else:
+        # Nếu đang Mua/Bán, so sánh với Giữ và Hành động Ngược lại
+        opposite_action = -actual_action
+        idx_opposite = opposite_action + 5
+        
+        comparison_candidates.append(("Giữ (0)", 5))
+        comparison_candidates.append((f"Ngược lại ({opposite_action:+})", idx_opposite))
+
+    # 4. Vòng lặp so sánh & Hiển thị chi tiết
+    for comp_name, comp_idx in comparison_candidates:
+        vec_compared = q_matrix[comp_idx]
+        
+        # --- HIỂN THỊ BẢNG SO SÁNH TRỰC QUAN (RAW VALUES) ---
+        print(f"\n   ------------------------------------------------------------------------")
+        print(f"   SO SÁNH KỲ VỌNG (Q): [Chọn: {actual_action:+}] vs [Bỏ: {comp_name}]")
+        print(f"   ------------------------------------------------------------------------")
+        print(f"   {'Component':<10} | {'Selected (Q)':>15} | {'Compared (Q)':>15} | {'Diff (Delta)':>15}")
+        print(f"   {'-'*10} | {'-'*15} | {'-'*15} | {'-'*15}")
+        
+        # In từng dòng thành phần
+        for i, name in enumerate(COMPONENTS):
+            val_sel = vec_selected[i]
+            val_comp = vec_compared[i]
+            diff = val_sel - val_comp
+            # Dùng .6f để hiển thị chính xác số nhỏ
+            print(f"   {name:<10} | {val_sel:>15.6f} | {val_comp:>15.6f} | {diff:>+15.6f}")
+            
+        print(f"   {'-'*10} | {'-'*15} | {'-'*15} | {'-'*15}")
+        
+        # Tính tổng Q để kiểm tra
+        total_sel = sum(vec_selected)
+        total_comp = sum(vec_compared)
+        total_diff = total_sel - total_comp
+        print(f"   {'TOTAL Q':<10} | {total_sel:>15.6f} | {total_comp:>15.6f} | {total_diff:>+15.6f}")
+        
+        # --- CHẠY HÀM MSX LOGIC ---
+        # Hàm analyze_msx sẽ tìm tập hợp lý do tối thiểu
+        msx_result = analyze_msx(vec_selected, vec_compared, COMPONENTS)
+        
+        print(f"   \n   [GIẢI THÍCH MSX]:")
+        
+        if msx_result.get('is_dominated', False):
+            print(f"      -> Quyết định chọn {actual_action} tốt hơn hoàn toàn (Dominated).")
+        else:
+            # Lý do chọn (Pros - Ưu điểm)
+            reasons_plus = [f"{x['component']} ({x['value']:+.6f})" for x in msx_result['msx_plus']]
+            if reasons_plus:
+                print(f"      -> Chọn vì lý do chính: {', '.join(reasons_plus)}")
+            else:
+                 print(f"      -> (Không tìm thấy lý do vượt trội cụ thể)")
+
+            # Lý do phản đối (Cons - Nhược điểm chấp nhận)
+            if 'cons_details' in msx_result and msx_result['cons_details']:
+                reasons_minus = [f"{x['component']} ({x['value']:.6f})" for x in msx_result['cons_details']]
+                print(f"      -> Chấp nhận đánh đổi: {', '.join(reasons_minus)}")
+            elif msx_result['disadvantage'] > 0:
+                 print(f"      -> Tổng bất lợi phải vượt qua: {msx_result['disadvantage']:.6f}")
+
+print(f"\n{'='*90}")

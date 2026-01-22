@@ -231,3 +231,34 @@ class StockTradingMDP:
         plt.suptitle(title, fontsize=14, fontweight='bold', y=0.995)
 
         return fig, axes
+    # Hàm lưu Q_values và trạng thái trong quá trình tương tác
+
+    def step(self, current_state, action, next_record):
+        """
+        Thực hiện một bước hành động:
+        1. Cập nhật trạng thái (State Transition)
+        2. Tính phần thưởng (Reward Calculation)
+        
+        Args:
+            current_state: Trạng thái hiện tại s_t
+            action: Hành động a_t
+            next_record: Dữ liệu dòng tiếp theo (t+1) để lấy giá đóng cửa mới
+            
+        Returns:
+            next_state: Trạng thái s_{t+1}
+            reward: Phần thưởng r_t
+            done: Cờ báo hiệu kết thúc (ở đây tạm thời luôn là False vì ta chạy hết loop)
+        """
+        # 1. Tính trạng thái tiếp theo
+        next_state = self.update_state(current_state, action, next_record)
+        
+        # 2. Tính phần thưởng nhận được khi chuyển từ s -> s'
+        reward = self.reward(current_state, next_state)
+        
+        # 3. Kiểm tra điều kiện dừng (Ví dụ: Cháy tài khoản)
+        # Nếu số dư < min_balance thì coi như Done (Game Over)
+        done = False
+        if next_state[1] < self.min_balance:
+            done = True
+            
+        return next_state, reward, done
