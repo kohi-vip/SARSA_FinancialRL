@@ -74,3 +74,5 @@ SARSA_FinancialRL/
 │
 └── *.ipynb files (còn lại ở root)      # Các notebook Jupyter còn lại
 ```
+
+Hướng dẫn chạy streamlit web demo: streamlit run application/streamlit_app.py --server.port 8501
