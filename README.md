@@ -76,3 +76,4 @@ SARSA_FinancialRL/
 ```
 
 Hướng dẫn chạy streamlit web demo: streamlit run application/streamlit_app.py --server.port 8501
+Giao diện web demo hiện đã dùng tiếng Việt và hiển thị số tiền theo VNĐ.
