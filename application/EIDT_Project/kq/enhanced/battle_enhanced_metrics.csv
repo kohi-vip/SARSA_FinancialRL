@@ -1,0 +1,2 @@
+model_key,model,seed,episodes,beta_0,epsilon_init,epsilon_decay,epsilon_min,profit,roi,arr,sharpe,max_drawdown,violations,q_loss_mean,vae_loss_mean,cost_loss_mean
+ENHANCED,Enhanced UCB-VAE,44,45,0.03,,,,-88.71158000000014,-8.871158000000014,-4.578371760590006,-0.02042109006249881,56.833095948168555,12,11.269734468964147,0.12670054510235787,

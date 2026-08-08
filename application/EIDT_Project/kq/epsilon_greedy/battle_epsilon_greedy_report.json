@@ -1,0 +1,72 @@
+{
+  "locked_configs": {
+    "ENHANCED": {
+      "label": "Enhanced UCB-VAE",
+      "beta_0": 0.03,
+      "use_cost": false,
+      "robust_loss": true,
+      "weight_decay": 0.0001,
+      "reward_shaping": true,
+      "kl_reduction": "sum",
+      "vae_beta_kl": 0.01
+    },
+    "UNCERTAINTY_AWARE": {
+      "label": "Uncertainty-Aware UCB-VAE",
+      "beta_0": 0.03,
+      "use_cost": true,
+      "robust_loss": true,
+      "weight_decay": 0.0001,
+      "reward_shaping": true,
+      "kl_reduction": "sum",
+      "vae_beta_kl": 0.01
+    },
+    "EPSILON_GREEDY": {
+      "label": "Epsilon-Greedy",
+      "use_cost": false,
+      "robust_loss": true,
+      "weight_decay": 0.0,
+      "reward_shaping": true,
+      "epsilon_init": 1.0,
+      "epsilon_decay": 0.95,
+      "epsilon_min": 0.05
+    }
+  },
+  "seed_range": [
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63
+  ],
+  "summary": [
+    {
+      "model": "Epsilon-Greedy",
+      "seeds": 20,
+      "profit_mean": -11.4624895,
+      "profit_std": 97.6655318938,
+      "roi_mean": -1.14624895,
+      "roi_std": 9.7665531894,
+      "arr_mean": -0.6990607581,
+      "arr_std": 5.0366409876,
+      "sharpe_mean": -0.2664956811,
+      "sharpe_std": 1.022530278,
+      "max_drawdown_mean": 29.9355094966,
+      "violations_mean": 4.7
+    }
+  ]
+}
