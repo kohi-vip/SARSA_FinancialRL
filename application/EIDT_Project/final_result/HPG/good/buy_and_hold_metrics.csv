@@ -1,0 +1,2 @@
+ticker,period,model_key,model,shares,cash_after_buy,test_profit,test_roi,test_arr,test_volatility,test_sharpe,test_max_drawdown,test_violations
+HPG,GOOD,BUY_AND_HOLD,Buy-and-Hold,121,5.596589999999992,2224.1965900000005,222.41965900000005,47.82399473024152,32.89850355542445,1.2969364609437617,40.20685713004158,12

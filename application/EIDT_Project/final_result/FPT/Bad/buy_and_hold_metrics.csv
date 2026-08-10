@@ -1,0 +1,2 @@
+ticker,period,model_key,model,shares,cash_after_buy,test_profit,test_roi,test_arr,test_volatility,test_sharpe,test_max_drawdown,test_violations
+FPT,BAD,BUY_AND_HOLD,Buy-and-Hold,20,45.04600000000005,466.2460000000001,46.62460000000001,21.296847694676412,26.367857197811727,0.7907508139877614,29.65240611548645,4

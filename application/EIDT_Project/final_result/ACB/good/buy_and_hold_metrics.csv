@@ -1,0 +1,2 @@
+ticker,period,model_key,model,shares,cash_after_buy,test_profit,test_roi,test_arr,test_volatility,test_sharpe,test_max_drawdown,test_violations
+ACB,GOOD,BUY_AND_HOLD,Buy-and-Hold,152,0.3613599999999906,1459.72136,145.972136,35.05284239664164,30.337253975135685,1.087446626256321,33.062682008317466,13

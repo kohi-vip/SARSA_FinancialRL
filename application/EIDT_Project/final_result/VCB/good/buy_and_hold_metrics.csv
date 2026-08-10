@@ -1,0 +1,2 @@
+ticker,period,model_key,model,shares,cash_after_buy,test_profit,test_roi,test_arr,test_volatility,test_sharpe,test_max_drawdown,test_violations
+VCB,GOOD,BUY_AND_HOLD,Buy-and-Hold,43,14.315300000000207,919.6453000000004,91.96453000000004,24.32486986478977,27.14987009227965,0.8675743547476035,39.14140393312592,9

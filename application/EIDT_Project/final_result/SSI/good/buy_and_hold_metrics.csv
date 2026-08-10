@@ -1,0 +1,2 @@
+ticker,period,model_key,model,shares,cash_after_buy,test_profit,test_roi,test_arr,test_volatility,test_sharpe,test_max_drawdown,test_violations
+SSI,GOOD,BUY_AND_HOLD,Buy-and-Hold,108,5.40640000000019,2707.6464000000005,270.76464000000004,54.882691098714886,38.891183250888375,1.2723630683695597,59.02404900278805,21
