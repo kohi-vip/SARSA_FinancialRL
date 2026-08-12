@@ -1,0 +1,19 @@
+ticker,critical_type,count
+ACB,Lowest/Max-DD,2
+ACB,Trend reversal,15
+ACB,Action shift,1
+FPT,Lowest/Max-DD,2
+FPT,Trend reversal,15
+FPT,Action shift,0
+GAS,Lowest/Max-DD,1
+GAS,Trend reversal,15
+GAS,Action shift,4
+HPG,Lowest/Max-DD,1
+HPG,Trend reversal,15
+HPG,Action shift,2
+SSI,Lowest/Max-DD,1
+SSI,Trend reversal,14
+SSI,Action shift,1
+VCB,Lowest/Max-DD,1
+VCB,Trend reversal,15
+VCB,Action shift,1

@@ -1,0 +1,181 @@
+explanation_id,ticker,critical_rank,step,time,critical_type,selected_action,compared_action,compared_label,msx_size,msx_sufficient,disadvantage
+ACB-1-10,ACB,1,5,2021-01-11,Trend reversal,0,5,Strong Buy (+5),1,True,0.005
+ACB-1-0,ACB,1,5,2021-01-11,Trend reversal,0,-5,Strong Sell (-5),1,True,0.004042427254607901
+ACB-2-10,ACB,2,18,2021-01-28,Lowest/Max-DD | Trend reversal,0,5,Strong Buy (+5),1,True,0.0046496475723688535
+ACB-2-0,ACB,2,18,2021-01-28,Lowest/Max-DD | Trend reversal,0,-5,Strong Sell (-5),1,True,0.005
+ACB-3-10,ACB,3,48,2021-03-18,Trend reversal,0,5,Strong Buy (+5),1,True,0.005
+ACB-3-0,ACB,3,48,2021-03-18,Trend reversal,0,-5,Strong Sell (-5),1,True,0.003896496428642422
+ACB-4-10,ACB,4,53,2021-03-25,Trend reversal,0,5,Strong Buy (+5),1,True,0.004624193013005422
+ACB-4-0,ACB,4,53,2021-03-25,Trend reversal,0,-5,Strong Sell (-5),1,True,0.005
+ACB-5-10,ACB,5,72,2021-04-22,Trend reversal,0,5,Strong Buy (+5),1,True,0.004648151589099141
+ACB-5-0,ACB,5,72,2021-04-22,Trend reversal,0,-5,Strong Sell (-5),1,True,0.005
+ACB-6-10,ACB,6,100,2021-06-03,Trend reversal,0,5,Strong Buy (+5),1,True,0.005
+ACB-6-0,ACB,6,100,2021-06-03,Trend reversal,0,-5,Strong Sell (-5),1,True,0.00401901642442681
+ACB-7-10,ACB,7,122,2021-07-05,Trend reversal,0,5,Strong Buy (+5),1,True,0.005
+ACB-7-0,ACB,7,122,2021-07-05,Trend reversal,0,-5,Strong Sell (-5),1,True,0.003899009660817683
+ACB-8-10,ACB,8,222,2021-11-24,Trend reversal,0,5,Strong Buy (+5),1,True,0.005
+ACB-8-0,ACB,8,222,2021-11-24,Trend reversal,0,-5,Strong Sell (-5),1,True,0.004133740086108444
+ACB-9-10,ACB,9,270,2022-02-08,Trend reversal,0,5,Strong Buy (+5),1,True,0.005
+ACB-9-0,ACB,9,270,2022-02-08,Trend reversal,0,-5,Strong Sell (-5),1,True,0.0038401377922855293
+ACB-10-5,ACB,10,335,2022-05-13,Trend reversal | Action shift,3,0,Hold (0),1,True,0.005
+ACB-10-2,ACB,10,335,2022-05-13,Trend reversal | Action shift,3,-3,Opposite (-3),1,True,0.01
+ACB-11-5,ACB,11,440,2022-10-11,Lowest/Max-DD | Trend reversal,3,0,Hold (0),1,True,0.005
+ACB-11-2,ACB,11,440,2022-10-11,Lowest/Max-DD | Trend reversal,3,-3,Opposite (-3),1,True,0.01
+ACB-12-5,ACB,12,455,2022-11-01,Trend reversal,3,0,Hold (0),1,True,0.004690433718569698
+ACB-12-2,ACB,12,455,2022-11-01,Trend reversal,3,-3,Opposite (-3),1,True,0.00957862366863993
+ACB-13-5,ACB,13,465,2022-11-15,Trend reversal,4,0,Hold (0),1,True,0.005
+ACB-13-1,ACB,13,465,2022-11-15,Trend reversal,4,-4,Opposite (-4),1,True,0.01
+ACB-14-5,ACB,14,498,2022-12-30,Trend reversal,-2,0,Hold (0),1,True,0.004856661554076713
+ACB-14-7,ACB,14,498,2022-12-30,Trend reversal,-2,2,Opposite (+2),1,True,0.00928070421447047
+ACB-15-10,ACB,15,644,2023-08-04,Trend reversal,0,5,Strong Buy (+5),1,True,0.005
+ACB-15-0,ACB,15,644,2023-08-04,Trend reversal,0,-5,Strong Sell (-5),1,True,0.0038901499018538753
+FPT-1-5,FPT,1,18,2021-01-28,Lowest/Max-DD | Trend reversal,1,0,Hold (0),1,True,0.005
+FPT-1-4,FPT,1,18,2021-01-28,Lowest/Max-DD | Trend reversal,1,-1,Opposite (-1),1,True,0.01
+FPT-2-5,FPT,2,28,2021-02-18,Trend reversal,1,0,Hold (0),1,True,0.0041432808892568574
+FPT-2-4,FPT,2,28,2021-02-18,Trend reversal,1,-1,Opposite (-1),1,True,0.009515252246055752
+FPT-3-5,FPT,3,41,2021-03-09,Trend reversal,1,0,Hold (0),1,True,0.005
+FPT-3-4,FPT,3,41,2021-03-09,Trend reversal,1,-1,Opposite (-1),1,True,0.01
+FPT-4-5,FPT,4,54,2021-03-26,Trend reversal,1,0,Hold (0),1,True,0.005
+FPT-4-4,FPT,4,54,2021-03-26,Trend reversal,1,-1,Opposite (-1),1,True,0.01
+FPT-5-5,FPT,5,132,2021-07-19,Trend reversal,1,0,Hold (0),1,True,0.005
+FPT-5-4,FPT,5,132,2021-07-19,Trend reversal,1,-1,Opposite (-1),1,True,0.01
+FPT-6-5,FPT,6,316,2022-04-14,Trend reversal,1,0,Hold (0),1,True,0.003958119802409783
+FPT-6-4,FPT,6,316,2022-04-14,Trend reversal,1,-1,Opposite (-1),1,True,0.009290782725438476
+FPT-7-5,FPT,7,352,2022-06-07,Trend reversal,1,0,Hold (0),1,True,0.004180930492002517
+FPT-7-4,FPT,7,352,2022-06-07,Trend reversal,1,-1,Opposite (-1),1,True,0.00974595702951774
+FPT-8-5,FPT,8,465,2022-11-15,Lowest/Max-DD | Trend reversal,1,0,Hold (0),1,True,0.005
+FPT-8-4,FPT,8,465,2022-11-15,Lowest/Max-DD | Trend reversal,1,-1,Opposite (-1),1,True,0.01
+FPT-9-5,FPT,9,640,2023-07-31,Trend reversal,1,0,Hold (0),1,True,0.004056754146295134
+FPT-9-4,FPT,9,640,2023-07-31,Trend reversal,1,-1,Opposite (-1),1,True,0.009588725448120386
+FPT-10-5,FPT,10,649,2023-08-11,Trend reversal,1,0,Hold (0),1,True,0.005
+FPT-10-4,FPT,10,649,2023-08-11,Trend reversal,1,-1,Opposite (-1),1,True,0.01
+FPT-11-5,FPT,11,665,2023-09-06,Trend reversal,1,0,Hold (0),1,True,0.0039074815312051215
+FPT-11-4,FPT,11,665,2023-09-06,Trend reversal,1,-1,Opposite (-1),1,True,0.00926730344304815
+FPT-12-5,FPT,12,686,2023-10-05,Trend reversal,1,0,Hold (0),1,True,0.005
+FPT-12-4,FPT,12,686,2023-10-05,Trend reversal,1,-1,Opposite (-1),1,True,0.01
+FPT-13-5,FPT,13,690,2023-10-11,Trend reversal,1,0,Hold (0),1,True,0.004216056574368849
+FPT-13-4,FPT,13,690,2023-10-11,Trend reversal,1,-1,Opposite (-1),1,True,0.009885892233578488
+FPT-14-5,FPT,14,704,2023-10-31,Trend reversal,1,0,Hold (0),1,True,0.005
+FPT-14-4,FPT,14,704,2023-10-31,Trend reversal,1,-1,Opposite (-1),1,True,0.01
+FPT-15-5,FPT,15,744,2023-12-26,Trend reversal,1,0,Hold (0),1,True,0.004184257467277348
+FPT-15-4,FPT,15,744,2023-12-26,Trend reversal,1,-1,Opposite (-1),1,True,0.009845583137357606
+GAS-1-5,GAS,1,98,2021-06-01,Trend reversal,-4,0,Hold (0),1,True,0.005
+GAS-1-9,GAS,1,98,2021-06-01,Trend reversal,-4,4,Opposite (+4),1,True,0.01
+GAS-2-5,GAS,2,120,2021-07-01,Trend reversal | Action shift,-2,0,Hold (0),1,True,0.005
+GAS-2-7,GAS,2,120,2021-07-01,Trend reversal | Action shift,-2,2,Opposite (+2),1,True,0.01
+GAS-3-5,GAS,3,157,2021-08-23,Trend reversal,-1,0,Hold (0),1,True,0.004846667658857773
+GAS-3-6,GAS,3,157,2021-08-23,Trend reversal,-1,1,Opposite (+1),1,True,0.009832864821655685
+GAS-4-10,GAS,4,168,2021-09-09,Trend reversal | Action shift,0,5,Strong Buy (+5),1,True,0.005
+GAS-4-0,GAS,4,168,2021-09-09,Trend reversal | Action shift,0,-5,Strong Sell (-5),1,True,0.004234871967928482
+GAS-5-5,GAS,5,200,2021-10-25,Trend reversal | Action shift,5,0,Hold (0),1,True,0.005
+GAS-5-0,GAS,5,200,2021-10-25,Trend reversal | Action shift,5,-5,Opposite (-5),1,True,0.01
+GAS-6-10,GAS,6,203,2021-10-28,Trend reversal | Action shift,0,5,Strong Buy (+5),1,True,0.005
+GAS-6-0,GAS,6,203,2021-10-28,Trend reversal | Action shift,0,-5,Strong Sell (-5),1,True,0.004503555685805623
+GAS-7-5,GAS,7,230,2021-12-06,Trend reversal,3,0,Hold (0),1,True,0.005
+GAS-7-2,GAS,7,230,2021-12-06,Trend reversal,3,-3,Opposite (-3),1,True,0.01
+GAS-8-5,GAS,8,251,2022-01-05,Trend reversal,3,0,Hold (0),1,True,0.004396389641333376
+GAS-8-2,GAS,8,251,2022-01-05,Trend reversal,3,-3,Opposite (-3),1,True,0.009241112469462687
+GAS-9-5,GAS,9,271,2022-02-09,Trend reversal,3,0,Hold (0),1,True,0.004491315822524489
+GAS-9-2,GAS,9,271,2022-02-09,Trend reversal,3,-3,Opposite (-3),1,True,0.009360362169682057
+GAS-10-5,GAS,10,283,2022-02-25,Trend reversal,-2,0,Hold (0),1,True,0.004601298673951537
+GAS-10-7,GAS,10,283,2022-02-25,Trend reversal,-2,2,Opposite (+2),1,True,0.009278405070072049
+GAS-11-5,GAS,11,289,2022-03-07,Trend reversal,-2,0,Hold (0),1,True,0.005
+GAS-11-7,GAS,11,289,2022-03-07,Trend reversal,-2,2,Opposite (+2),1,True,0.01
+GAS-12-5,GAS,12,294,2022-03-14,Trend reversal,5,0,Hold (0),1,True,0.005
+GAS-12-0,GAS,12,294,2022-03-14,Trend reversal,5,-5,Opposite (-5),1,True,0.01
+GAS-13-5,GAS,13,311,2022-04-06,Trend reversal,-2,0,Hold (0),1,True,0.005
+GAS-13-7,GAS,13,311,2022-04-06,Trend reversal,-2,2,Opposite (+2),1,True,0.01
+GAS-14-5,GAS,14,462,2022-11-10,Lowest/Max-DD | Trend reversal,3,0,Hold (0),1,True,0.005
+GAS-14-2,GAS,14,462,2022-11-10,Lowest/Max-DD | Trend reversal,3,-3,Opposite (-3),1,True,0.01
+GAS-15-5,GAS,15,494,2022-12-26,Trend reversal,4,0,Hold (0),1,True,0.005
+GAS-15-1,GAS,15,494,2022-12-26,Trend reversal,4,-4,Opposite (-4),1,True,0.01
+HPG-1-5,HPG,1,98,2021-06-01,Trend reversal,-4,0,Hold (0),1,True,0.005
+HPG-1-9,HPG,1,98,2021-06-01,Trend reversal,-4,4,Opposite (+4),1,True,0.01
+HPG-2-5,HPG,2,120,2021-07-01,Trend reversal,-1,0,Hold (0),1,True,0.005
+HPG-2-6,HPG,2,120,2021-07-01,Trend reversal,-1,1,Opposite (+1),1,True,0.01
+HPG-3-5,HPG,3,157,2021-08-23,Trend reversal,-3,0,Hold (0),1,True,0.004022222735220571
+HPG-3-8,HPG,3,157,2021-08-23,Trend reversal,-3,3,Opposite (+3),1,True,0.009756621167762214
+HPG-4-5,HPG,4,168,2021-09-09,Trend reversal,-1,0,Hold (0),1,True,0.005
+HPG-4-6,HPG,4,168,2021-09-09,Trend reversal,-1,1,Opposite (+1),1,True,0.01
+HPG-5-5,HPG,5,200,2021-10-25,Trend reversal,-3,0,Hold (0),1,True,0.0036755640129558786
+HPG-5-8,HPG,5,200,2021-10-25,Trend reversal,-3,3,Opposite (+3),1,True,0.009859869800275194
+HPG-6-5,HPG,6,203,2021-10-28,Trend reversal,-1,0,Hold (0),1,True,0.005
+HPG-6-6,HPG,6,203,2021-10-28,Trend reversal,-1,1,Opposite (+1),1,True,0.01
+HPG-7-5,HPG,7,230,2021-12-06,Trend reversal,-3,0,Hold (0),1,True,0.003788376164156948
+HPG-7-8,HPG,7,230,2021-12-06,Trend reversal,-3,3,Opposite (+3),1,True,0.009931694357655951
+HPG-8-5,HPG,8,251,2022-01-05,Trend reversal,3,0,Hold (0),1,True,0.004160509789362554
+HPG-8-2,HPG,8,251,2022-01-05,Trend reversal,3,-3,Opposite (-3),1,True,0.009909092613961556
+HPG-9-5,HPG,9,271,2022-02-09,Trend reversal,3,0,Hold (0),1,True,0.004237529817037289
+HPG-9-2,HPG,9,271,2022-02-09,Trend reversal,3,-3,Opposite (-3),1,True,0.00978775272029453
+HPG-10-5,HPG,10,283,2022-02-25,Trend reversal | Action shift,3,0,Hold (0),1,True,0.005
+HPG-10-2,HPG,10,283,2022-02-25,Trend reversal | Action shift,3,-3,Opposite (-3),1,True,0.01
+HPG-11-5,HPG,11,289,2022-03-07,Trend reversal,-1,0,Hold (0),1,True,0.005
+HPG-11-6,HPG,11,289,2022-03-07,Trend reversal,-1,1,Opposite (+1),1,True,0.01
+HPG-12-5,HPG,12,294,2022-03-14,Trend reversal,-3,0,Hold (0),1,True,0.003676688410341744
+HPG-12-8,HPG,12,294,2022-03-14,Trend reversal,-3,3,Opposite (+3),1,True,0.009852434208150962
+HPG-13-5,HPG,13,311,2022-04-06,Trend reversal | Action shift,3,0,Hold (0),1,True,0.004197495548287411
+HPG-13-2,HPG,13,311,2022-04-06,Trend reversal | Action shift,3,-3,Opposite (-3),1,True,0.009840562581084678
+HPG-14-5,HPG,14,462,2022-11-10,Lowest/Max-DD | Trend reversal,-3,0,Hold (0),1,True,0.004301330753951338
+HPG-14-8,HPG,14,462,2022-11-10,Lowest/Max-DD | Trend reversal,-3,3,Opposite (+3),1,True,0.00993950341013261
+HPG-15-5,HPG,15,494,2022-12-26,Trend reversal,-3,0,Hold (0),1,True,0.0037772362655960068
+HPG-15-8,HPG,15,494,2022-12-26,Trend reversal,-3,3,Opposite (+3),1,True,0.009737579782959083
+SSI-1-5,SSI,1,20,2021-02-01,Trend reversal,-3,0,Hold (0),1,True,0.003823331639869143
+SSI-1-8,SSI,1,20,2021-02-01,Trend reversal,-3,3,Opposite (+3),1,True,0.009001202442741496
+SSI-2-5,SSI,2,121,2021-07-02,Trend reversal,4,0,Hold (0),1,True,0.004708602495957166
+SSI-2-1,SSI,2,121,2021-07-02,Trend reversal,4,-4,Opposite (-4),1,True,0.008660236597061157
+SSI-3-5,SSI,3,165,2021-09-06,Trend reversal,-2,0,Hold (0),1,True,0.004442177657329013
+SSI-3-7,SSI,3,165,2021-09-06,Trend reversal,-2,2,Opposite (+2),1,True,0.009694097539759246
+SSI-4-5,SSI,4,167,2021-09-08,Trend reversal,-2,0,Hold (0),1,True,0.005
+SSI-4-7,SSI,4,167,2021-09-08,Trend reversal,-2,2,Opposite (+2),1,True,0.01
+SSI-5-5,SSI,5,185,2021-10-04,Trend reversal,-2,0,Hold (0),1,True,0.004292933167453161
+SSI-5-7,SSI,5,185,2021-10-04,Trend reversal,-2,2,Opposite (+2),1,True,0.008907149740261966
+SSI-6-5,SSI,6,190,2021-10-11,Trend reversal,-2,0,Hold (0),1,True,0.005
+SSI-6-7,SSI,6,190,2021-10-11,Trend reversal,-2,2,Opposite (+2),1,True,0.01
+SSI-7-5,SSI,7,226,2021-11-30,Trend reversal | Action shift,-5,0,Hold (0),1,True,0.005
+SSI-7-10,SSI,7,226,2021-11-30,Trend reversal | Action shift,-5,5,Opposite (+5),1,True,0.01
+SSI-8-5,SSI,8,264,2022-01-24,Trend reversal,-2,0,Hold (0),1,True,0.004153644937905487
+SSI-8-7,SSI,8,264,2022-01-24,Trend reversal,-2,2,Opposite (+2),1,True,0.00857560172677041
+SSI-9-5,SSI,9,290,2022-03-08,Trend reversal,-2,0,Hold (0),1,True,0.005
+SSI-9-7,SSI,9,290,2022-03-08,Trend reversal,-2,2,Opposite (+2),1,True,0.01
+SSI-10-5,SSI,10,309,2022-04-04,Trend reversal,-2,0,Hold (0),1,True,0.005
+SSI-10-7,SSI,10,309,2022-04-04,Trend reversal,-2,2,Opposite (+2),1,True,0.01
+SSI-11-5,SSI,11,362,2022-06-21,Trend reversal,-3,0,Hold (0),1,True,0.004193157447734852
+SSI-11-8,SSI,11,362,2022-06-21,Trend reversal,-3,3,Opposite (+3),1,True,0.008243114678189167
+SSI-12-5,SSI,12,462,2022-11-10,Lowest/Max-DD,-3,0,Hold (0),1,True,0.004698861851356928
+SSI-12-8,SSI,12,462,2022-11-10,Lowest/Max-DD,-3,3,Opposite (+3),1,True,0.008844195826677614
+SSI-13-5,SSI,13,494,2022-12-26,Trend reversal,-2,0,Hold (0),1,True,0.004681861212593508
+SSI-13-7,SSI,13,494,2022-12-26,Trend reversal,-2,2,Opposite (+2),1,True,0.009453607917530471
+SSI-14-5,SSI,14,675,2023-09-20,Trend reversal,4,0,Hold (0),1,True,0.004686845330870715
+SSI-14-1,SSI,14,675,2023-09-20,Trend reversal,4,-4,Opposite (-4),1,True,0.009149565788684422
+SSI-15-5,SSI,15,690,2023-10-11,Trend reversal,-2,0,Hold (0),1,True,0.005
+SSI-15-7,SSI,15,690,2023-10-11,Trend reversal,-2,2,Opposite (+2),1,True,0.01
+VCB-1-5,VCB,1,18,2021-01-28,Trend reversal,-2,0,Hold (0),1,True,0.0040432645903411
+VCB-1-7,VCB,1,18,2021-01-28,Trend reversal,-2,2,Opposite (+2),1,True,0.009264345678966501
+VCB-2-5,VCB,2,49,2021-03-19,Trend reversal,-2,0,Hold (0),1,True,0.004520361212489658
+VCB-2-7,VCB,2,49,2021-03-19,Trend reversal,-2,2,Opposite (+2),1,True,0.009482296979294917
+VCB-3-5,VCB,3,89,2021-05-19,Trend reversal,-2,0,Hold (0),1,True,0.004593263147062314
+VCB-3-7,VCB,3,89,2021-05-19,Trend reversal,-2,2,Opposite (+2),1,True,0.009723208704381259
+VCB-4-5,VCB,4,185,2021-10-04,Trend reversal,-2,0,Hold (0),1,True,0.004287322134478022
+VCB-4-7,VCB,4,185,2021-10-04,Trend reversal,-2,2,Opposite (+2),1,True,0.0094322684215149
+VCB-5-5,VCB,5,265,2022-01-25,Trend reversal,2,0,Hold (0),1,True,0.00411138549214229
+VCB-5-3,VCB,5,265,2022-01-25,Trend reversal,2,-2,Opposite (-2),1,True,0.009474322437890806
+VCB-6-5,VCB,6,335,2022-05-13,Trend reversal,-2,0,Hold (0),1,True,0.004282488679455132
+VCB-6-7,VCB,6,335,2022-05-13,Trend reversal,-2,2,Opposite (+2),1,True,0.009467758636455992
+VCB-7-5,VCB,7,382,2022-07-19,Trend reversal,-2,0,Hold (0),1,True,0.004513082035264238
+VCB-7-7,VCB,7,382,2022-07-19,Trend reversal,-2,2,Opposite (+2),1,True,0.009586458590783886
+VCB-8-5,VCB,8,440,2022-10-11,Lowest/Max-DD | Trend reversal,-2,0,Hold (0),1,True,0.0032958696782589003
+VCB-8-7,VCB,8,440,2022-10-11,Lowest/Max-DD | Trend reversal,-2,2,Opposite (+2),1,True,0.008424230274395095
+VCB-9-5,VCB,9,518,2023-02-06,Trend reversal,2,0,Hold (0),1,True,0.004557464781901217
+VCB-9-3,VCB,9,518,2023-02-06,Trend reversal,2,-2,Opposite (-2),1,True,0.009695685532060452
+VCB-10-5,VCB,10,558,2023-04-03,Trend reversal | Action shift,2,0,Hold (0),1,True,0.004906491397268838
+VCB-10-3,VCB,10,558,2023-04-03,Trend reversal | Action shift,2,-2,Opposite (-2),1,True,0.009997143750078978
+VCB-11-5,VCB,11,588,2023-05-18,Trend reversal,2,0,Hold (0),1,True,0.004679337379347999
+VCB-11-3,VCB,11,588,2023-05-18,Trend reversal,2,-2,Opposite (-2),1,True,0.009898385707638225
+VCB-12-5,VCB,12,609,2023-06-16,Trend reversal,2,0,Hold (0),1,True,0.0046404450830596035
+VCB-12-3,VCB,12,609,2023-06-16,Trend reversal,2,-2,Opposite (-2),1,True,0.009928258854197338
+VCB-13-5,VCB,13,637,2023-07-26,Trend reversal,-2,0,Hold (0),1,True,0.005
+VCB-13-7,VCB,13,637,2023-07-26,Trend reversal,-2,2,Opposite (+2),1,True,0.01
+VCB-14-5,VCB,14,659,2023-08-25,Trend reversal,-2,0,Hold (0),1,True,0.004452553025548693
+VCB-14-7,VCB,14,659,2023-08-25,Trend reversal,-2,2,Opposite (+2),1,True,0.009474090669536958
+VCB-15-5,VCB,15,665,2023-09-06,Trend reversal,-2,0,Hold (0),1,True,0.005
+VCB-15-7,VCB,15,665,2023-09-06,Trend reversal,-2,2,Opposite (+2),1,True,0.01
